@@ -12,6 +12,7 @@ namespace Auto_data
         public static string path = "auto_adatok.csv";
         static void Main(string[] args)
         {
+            Database.DropTables();
             CsvService.Read(path);
         }
     }

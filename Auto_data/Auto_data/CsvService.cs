@@ -34,6 +34,7 @@ namespace Auto_data
                     Database.DatabaseService();
                 }
             }
+            Console.WriteLine("Adatok sikeresen feltöltve.");
         }
     }
 }
