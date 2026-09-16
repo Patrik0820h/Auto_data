@@ -13,7 +13,12 @@ namespace Auto_data
         static void Main(string[] args)
         {
             Database.DropTables();
-            CsvService.Read(path);
+            var adatok = CsvService.Read(path);
+
+            foreach (var item in adatok) 
+            {
+                Database.DatabaseService(item.auto, item.marka, item.tipus);
+            }
         }
     }
 }
