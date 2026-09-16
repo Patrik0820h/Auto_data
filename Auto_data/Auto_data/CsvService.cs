@@ -4,13 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Auto_data
 {
-    internal static class CsvService
+    public static class CsvService
     {
-        public static void Read(string path) 
+        public static List<(Auto auto, Marka marka, Tipus tipus)> Read(string path)
         {
+            var result = new List<(Auto, Marka, Tipus)>();
 
             using (StreamReader sr = new StreamReader(path))
             {
@@ -19,22 +21,34 @@ namespace Auto_data
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
+                    string[] splittedLine = line.Split(',');
 
-                    string[] splittedline = line.Split(',');
+                    var auto = new Auto
+                    {
+                        Id = int.Parse(splittedLine[0]),
+                        Üzemanyag = splittedLine[3],
+                        Teljesítmény_LE = int.Parse(splittedLine[4]),
+                        Vételár_EUR = int.Parse(splittedLine[5]),
+                        Gyártási_év = int.Parse(splittedLine[6]),
+                        Átlagos_CO2_g_km = int.Parse(splittedLine[7])
+                    };
 
-                    Auto.Id = int.Parse(splittedline[0]);
-                    Marka.Márka = splittedline[1];
-                    Tipus.Típus = splittedline[2];
-                    Auto.Üzemanyag = splittedline[3];
-                    Auto.Teljesítmény_LE = int.Parse(splittedline[4]);
-                    Auto.Vételár_EUR = int.Parse(splittedline[5]);
-                    Auto.Gyártási_év = int.Parse(splittedline[6]);
-                    Auto.Átlagos_CO2_g_km = int.Parse(splittedline[7]);
+                    var marka = new Marka
+                    {
+                        Márka = splittedLine[1]
+                    };
 
-                    Database.DatabaseService();
+                    var tipus = new Tipus
+                    {
+                        Típus = splittedLine[2]
+                    };
+
+                    result.Add((auto, marka, tipus));
                 }
             }
-            Console.WriteLine("Adatok sikeresen feltöltve.");
+
+            return result;
         }
     }
+
 }
